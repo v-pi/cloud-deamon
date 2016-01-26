@@ -100,7 +100,7 @@
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\v-pi.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
-    <Content Include="tessadata\eng.traineddata">
+    <Content Include="tessdata\eng.traineddata">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
