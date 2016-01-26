@@ -37,7 +37,7 @@ namespace CloudDaemon.Monitors.Free
                 image.Width / 2,        // take the next 50% of the width (should be 20px)
                 image.Height / 2);      // take the next 50% of the height (should be 20px)
 
-            string datapath = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).Parent.Parent.FullName;
+            string datapath = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
 
             Pix pix = Pix.LoadTiffFromMemory(tiffStream.ToArray());
             TesseractEngine engine = new TesseractEngine(datapath, "eng");

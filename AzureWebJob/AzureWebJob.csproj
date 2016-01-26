@@ -100,6 +100,9 @@
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\v-pi.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
+    <Content Include="tessadata\eng.traineddata">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
