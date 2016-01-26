@@ -1,0 +1,9 @@
+﻿{
+  "$schema": "http://schemastore.org/schemas/json/webjob-publish-settings.json",
+  "webJobName": "AzureWebJob",
+  "startTime": "2016-01-26T00:00:00+01:00",
+  "endTime": "2016-01-27T00:00:00+01:00",
+  "jobRecurrenceFrequency": "Minute",
+  "interval": 5,
+  "runMode": "Scheduled"
+}

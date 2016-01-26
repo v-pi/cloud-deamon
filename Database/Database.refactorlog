@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="02c11b32-dce3-41e2-b17d-9268f47330d8" ChangeDateTime="01/22/2016 10:27:33">
+    <Property Name="ElementName" Value="[dbo].[User].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[User]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IdUser" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dfff4eb0-24a6-448d-a0e9-8e2a42171b35" ChangeDateTime="01/22/2016 10:29:26">
+    <Property Name="ElementName" Value="[dbo].[Profile].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Profile]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IdProfile" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="96f35cc7-1957-458c-b345-1864edccafcf" ChangeDateTime="01/22/2016 10:29:36">
+    <Property Name="ElementName" Value="[dbo].[FreeConsumptionHistory].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[FreeConsumptionHistory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IdHistory" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9b6b8dee-7db6-40aa-a12a-d08b2a4cffa0" ChangeDateTime="01/23/2016 10:56:09">
+    <Property Name="ElementName" Value="[dbo].[Monitor].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Monitor]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IdMonitor" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e6d86cb1-c213-4084-9a4f-f1c387136efc" ChangeDateTime="01/23/2016 13:43:40">
+    <Property Name="ElementName" Value="[dbo].[Monitor].[MonitorToRun]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Monitor]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MonitorName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="21e01b95-b53f-45e0-97b3-19f05bf11525" ChangeDateTime="01/23/2016 13:45:33">
+    <Property Name="ElementName" Value="[dbo].[Notifier].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Notifier]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IdNotifier" />
+  </Operation>
+</Operations>

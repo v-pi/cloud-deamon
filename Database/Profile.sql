@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Profile]
+(
+	[IdProfile] INT NOT NULL IDENTITY PRIMARY KEY, 
+    [Login] VARBINARY(128) NOT NULL, 
+    [Password] VARBINARY(128) NOT NULL, 
+    [Alias] VARCHAR(50) NOT NULL
+)
