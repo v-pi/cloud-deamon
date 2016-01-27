@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
+using CloudDaemon.Common.Entities;
 
 namespace CloudDaemon.Monitors.Tennis
 {

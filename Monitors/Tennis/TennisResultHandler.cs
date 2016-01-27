@@ -1,4 +1,5 @@
-﻿using CloudDaemon.Common.Interfaces;
+﻿using CloudDaemon.Common.Entities;
+using CloudDaemon.Common.Interfaces;
 using CloudDaemon.DAL;
 
 namespace CloudDaemon.Monitors.Tennis
@@ -11,7 +12,7 @@ namespace CloudDaemon.Monitors.Tennis
             TennisRepository repository = new TennisRepository();
             foreach (AvailableTennisSlot slot in results)
             {
-                repository.SaveAvailableSlot(slot.StartDateTime, slot.CourtNumber);
+                repository.SaveAvailableSlot(slot);
             }
         }
     }

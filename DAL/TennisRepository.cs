@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CloudDaemon.Common.Entities;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -22,7 +23,7 @@ namespace CloudDaemon.DAL
             }
         }
 
-        public void SaveAvailableSlot(DateTime availableDate, int courtNumber)
+        public void SaveAvailableSlot(AvailableTennisSlot slot)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AWSDatabase"].ConnectionString))
             {
@@ -33,8 +34,8 @@ INSERT INTO
     AvailableTennisSlotsHistory (AvailableDate, CourtNumber, AddedDate)
 VALUES
     (@AvailableDate, @CourtNumber, @AddedDate)";
-                    command.Parameters.AddParameter("@AvailableDate", SqlDbType.DateTime2, availableDate);
-                    command.Parameters.AddParameter("@CourtNumber", SqlDbType.TinyInt, courtNumber);
+                    command.Parameters.AddParameter("@AvailableDate", SqlDbType.DateTime2, slot.StartDateTime);
+                    command.Parameters.AddParameter("@CourtNumber", SqlDbType.TinyInt, slot.CourtNumber);
                     command.Parameters.AddParameter("@AddedDate", SqlDbType.DateTime2, DateTime.Now);
 
                     connection.Open();

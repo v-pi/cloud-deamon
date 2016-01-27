@@ -1,7 +1,7 @@
 ﻿using CloudDaemon.Common.Interfaces;
 using System;
 
-namespace CloudDaemon.Monitors.Free
+namespace CloudDaemon.Common.Entities
 {
     public class FreeMobileConsumption : IHasMessage
     {
@@ -12,6 +12,8 @@ namespace CloudDaemon.Monitors.Free
         public DateTime StartDate { get; set; }
 
         public decimal ConsumedData { get; set; }
+
+        public Profile User{ get; set; }
 
         public decimal RemainingData
         {

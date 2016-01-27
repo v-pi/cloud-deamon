@@ -1,4 +1,5 @@
-﻿using CloudDaemon.Common.Exceptions;
+﻿using CloudDaemon.Common.Entities;
+using CloudDaemon.Common.Exceptions;
 using CloudDaemon.Common.Impl;
 using CloudDaemon.Common.Interfaces;
 using HtmlAgilityPack;

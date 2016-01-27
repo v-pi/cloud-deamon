@@ -26,13 +26,13 @@ namespace CloudDaemon.AzureWebJob
 
                 Init();
                 Run();
-#if RELEASE
+#if DEBUG
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
+#else
                 // The following code ensures that the WebJob will be running continuously
                 host.RunAndBlock();
                 LogManager.Log("This is release !");
-#else
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
 #endif
             }
             catch (Exception ex)

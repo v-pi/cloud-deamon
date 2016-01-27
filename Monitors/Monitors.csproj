@@ -93,11 +93,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Free\FreeMobileAuthentifier.cs" />
-    <Compile Include="Free\FreeMobileConsumption.cs" />
     <Compile Include="Free\FreeMobileMonitor.cs" />
     <Compile Include="Free\FreeVirualKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tennis\AvailableTennisSlot.cs" />
     <Compile Include="Tennis\AvailableTennisSlotsCollection.cs" />
     <Compile Include="Tennis\TennisAuthentifier.cs" />
     <Compile Include="Tennis\TennisMonitor.cs" />

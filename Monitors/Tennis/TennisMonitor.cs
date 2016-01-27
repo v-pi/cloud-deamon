@@ -1,12 +1,16 @@
-﻿using CloudDaemon.Common.Exceptions;
+﻿using CloudDaemon.Common.Entities;
+using CloudDaemon.Common.Exceptions;
 using CloudDaemon.Common.Impl;
 using CloudDaemon.Common.Interfaces;
 using CloudDaemon.DAL;
 using HtmlAgilityPack;
+using System;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CloudDaemon.Monitors.Tennis
 {
@@ -65,7 +69,7 @@ namespace CloudDaemon.Monitors.Tennis
             }
             AvailableTennisSlotsCollection tennisSlots = new AvailableTennisSlotsCollection(
                 elements
-                    .Select(e => new AvailableTennisSlot(e))
+                    .Select(e => ConvertNodeToTennisSlot(e))
                     .Where(
                         s => s.CourtNumber != 8 &&                                  // Fuck court 8
                         s.Place == "Jules Ladoumègue" &&                            // Fuck this website's encoding
@@ -82,6 +86,19 @@ namespace CloudDaemon.Monitors.Tennis
             }
 
             OnMonitorEnded(tennisSlots);
+        }
+
+        private static AvailableTennisSlot ConvertNodeToTennisSlot(HtmlNode html)
+        {
+            HtmlNodeCollection tableRows = html.SelectNodes("td");
+            string place = tableRows[0].InnerText;
+            string start = tableRows[2].InnerText + tableRows[3].InnerText;
+            DateTime startDateTime = DateTime.ParseExact(start, "dd/MM/yyyyHH\\hmm", CultureInfo.GetCultureInfo("fr-FR"));
+            Regex regex = new Regex("Court n°(\\d{1,2})");
+            Match match = regex.Match(tableRows[4].InnerText);
+            int courtNumber = Int32.Parse(match.Groups[1].Value);
+
+            return new AvailableTennisSlot(place, startDateTime, courtNumber);
         }
     }
 }

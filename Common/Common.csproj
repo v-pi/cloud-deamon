@@ -76,6 +76,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Entities\AvailableTennisSlot.cs" />
+    <Compile Include="Entities\FreeMobileConsumption.cs" />
     <Compile Include="Entities\MonitorEntity.cs" />
     <Compile Include="Entities\ResultHandlerEntity.cs" />
     <Compile Include="Entities\SmsMessage.cs" />
