@@ -29,6 +29,7 @@ namespace CloudDaemon.Monitors.Free
             doc.LoadHtml(StartPageHtml);
             HtmlNodeCollection elements = doc.DocumentNode.SelectNodes("//img[@class='ident_chiffre_img pointer']");
 
+            // TODO : Check that the 10 figures were successfully identified (otherwise, retry ? try and improve success rate ?)
             List<FreeVirtualKey> keys = elements.Select((x, i) => new FreeVirtualKey(i, x.Attributes["src"].Value)).ToList();
             keys.ForEach(k => k.InitKey(Client));
 

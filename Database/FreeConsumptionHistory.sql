@@ -4,7 +4,8 @@
 	[IdUser] INT NOT NULL,
     [CheckDate] DATETIME2 NOT NULL, 
     [VoiceConsumption] TIME NOT NULL, 
-    [DataConsumption] DECIMAL NOT NULL
+    [DataConsumption] DECIMAL(9, 4) NOT NULL,
+	CONSTRAINT FK_FreeConsumptionHistory_Profile FOREIGN KEY (IdUser) REFERENCES [Profile](IdProfile)
 )
 
 GO

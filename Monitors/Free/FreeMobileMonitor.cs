@@ -42,6 +42,7 @@ namespace CloudDaemon.Monitors.Free
 
             FreeMobileConsumption consumption = new FreeMobileConsumption()
             {
+                User = Profile,
                 RemainingData = Decimal.Parse(regex.Match(result).Groups[1].Value, CultureInfo.InvariantCulture),
                 StartDate = DateTime.ParseExact(activeElements[0].InnerText, "dd/MM/yyyy", CultureInfo.InvariantCulture),
                 ConsumedVoice = TimeSpan.ParseExact(activeElements[2].InnerText, "h'h'm'min'ss's'", CultureInfo.InvariantCulture)
