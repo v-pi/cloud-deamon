@@ -2,6 +2,7 @@
 using CloudDaemon.Common.Exceptions;
 using CloudDaemon.Common.Impl;
 using CloudDaemon.Common.Interfaces;
+using CloudDaemon.DAL;
 using HtmlAgilityPack;
 using System;
 using System.Globalization;
@@ -25,13 +26,14 @@ namespace CloudDaemon.Monitors.Free
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(response);
 
-            HtmlNodeCollection elements = doc.DocumentNode.SelectNodes("//div[@class='progress-text']");
+            HtmlNodeCollection activeElements = doc.DocumentNode.SelectNodes("//span[@class='actif']");
+            HtmlNodeCollection progressElements = doc.DocumentNode.SelectNodes("//div[@class='progress-text']");
 
-            if (elements == null || elements.Count() != 1)
+            if (progressElements == null || progressElements.Count() != 1)
             {
                 throw new HtmlStructureChangedException(Url, "Expected one element with the class 'progress-text'");
             }
-            string result = elements.ElementAt(0).InnerText;
+            string result = progressElements.ElementAt(0).InnerText;
             Regex regex = new Regex("reste ([\\d\\.]+) Mio");
             if (!regex.IsMatch(result))
             {
@@ -40,13 +42,20 @@ namespace CloudDaemon.Monitors.Free
 
             FreeMobileConsumption consumption = new FreeMobileConsumption()
             {
-                RemainingData = Decimal.Parse(regex.Match(result).Groups[1].Value, CultureInfo.InvariantCulture)
+                RemainingData = Decimal.Parse(regex.Match(result).Groups[1].Value, CultureInfo.InvariantCulture),
+                StartDate = DateTime.ParseExact(activeElements[0].InnerText, "dd/MM/yyyy", CultureInfo.InvariantCulture),
+                ConsumedVoice = TimeSpan.ParseExact(activeElements[2].InnerText, "h'h'm'min'ss's'", CultureInfo.InvariantCulture)
             };
 
-            // TODO : Register SQL save
-            // TODO : return if no change since last save
+            FreeMobileRepository repository = new FreeMobileRepository();
+            FreeMobileConsumption previous = repository.GetLastConsumption(Profile.IdProfile);
+            repository.SaveConsumption(consumption);
 
-            OnMonitorEnded(consumption);
+            if ((consumption.IsDataNearMax && !previous.IsDataNearMax) // if the new data consumption is almost over when the previous wasn't
+                || consumption.IsVoiceNearMax && !previous.IsVoiceNearMax) // OR if the new voice consumption is almost over when the previous wasn't
+            {
+                OnMonitorEnded(consumption);
+            }
         }
     }
 }

@@ -79,13 +79,10 @@ namespace CloudDaemon.Monitors.Tennis
             TennisRepository repository = new TennisRepository();
             tennisSlots.Slots = tennisSlots.Slots.Where(s => !repository.IsAvailableSlotAlreadySent(s.StartDateTime));
 
-            if (tennisSlots.Slots.Count() == 0)
+            if (tennisSlots.Slots.Count() > 0)
             {
-                LogManager.Log("No results");
-                return;
+                OnMonitorEnded(tennisSlots);
             }
-
-            OnMonitorEnded(tennisSlots);
         }
 
         private static AvailableTennisSlot ConvertNodeToTennisSlot(HtmlNode html)

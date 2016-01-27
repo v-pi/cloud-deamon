@@ -35,6 +35,8 @@ namespace CloudDaemon.Common.Entities
         {
             get
             {
+                // The Monitor Name is supposed to use the first block (before the first .) for the solution name and the second for the project
+                // The assembly name is supposed to use both solution name and project name
                 string[] namespaceParts = MonitorName.Split('.');
                 return String.Join(".", namespaceParts[0], namespaceParts[1]);
             }

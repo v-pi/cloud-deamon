@@ -43,8 +43,10 @@ namespace CloudDaemon.AzureWebJob
 
         public static void Init()
         {
+            // There are some weird non html things inside those script tags. Do NOT look into them if you wanna parse
             HtmlNode.ElementsFlags.Remove("script");
-            EmailNotifier.SenderProfile = new ProfileRepository().GetProfileById(Int32.Parse(ConfigurationManager.AppSettings["GmailProfileId"])); // kinda bad : password is stored in static var... eh whatever
+            // kinda bad : password is stored in static var... eh whatever
+            EmailNotifier.SenderProfile = new ProfileRepository().GetProfileById(Int32.Parse(ConfigurationManager.AppSettings["GmailProfileId"]));
         }
 
         public static void Run()
@@ -57,11 +59,13 @@ namespace CloudDaemon.AzureWebJob
             {
                 IMonitor monitor = (IMonitor)Activator.CreateInstance(monitorEntity.MonitorAssembly, monitorEntity.MonitorName).Unwrap();
                 IEnumerable<ResultHandlerEntity> resultHandlers = resultHandlerManager.GetResultHandlers(monitorEntity.IdMonitor);
-                if (monitor is AuthentifiedMonitor)
+                // An authentified monitor is a monitor with an identity (profile)
+                if (monitor is AuthentifiedMonitor) 
                     ((AuthentifiedMonitor)monitor).Profile = monitorEntity.Profile;
                 foreach (ResultHandlerEntity resultHandlerEntity in resultHandlers)
                 {
                     IResultHandler resultHandler = (IResultHandler)Activator.CreateInstance(resultHandlerEntity.ResultHandlerAssembly, resultHandlerEntity.ResultHandlerName).Unwrap();
+                    // A notifier is a resulthandler that notifies someone (profile)
                     if (resultHandler is Notifier)
                         ((Notifier)resultHandler).Profile = resultHandlerEntity.Profile;
                     monitor.MonitorEnded += resultHandler.HandleResult;
