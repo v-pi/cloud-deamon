@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CloudDaemon.Common.Enum;
+using System;
 
 namespace CloudDaemon.Common.Entities
 {
