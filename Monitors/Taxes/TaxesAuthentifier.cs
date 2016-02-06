@@ -1,7 +1,6 @@
 ﻿using CloudDaemon.Common.Entities;
 using CloudDaemon.Common.Impl;
 using System.Collections.Specialized;
-using System.Net;
 
 namespace CloudDaemon.Monitors.Taxes
 {

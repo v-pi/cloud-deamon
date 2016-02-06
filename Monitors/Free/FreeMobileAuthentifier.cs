@@ -17,6 +17,7 @@ namespace CloudDaemon.Monitors.Free
         protected override string StartUrl { get { return "https://mobile.free.fr/moncompte/index.php?page=home"; } }
         protected override string LoginUrl { get { return "https://mobile.free.fr/moncompte/index.php?page=home"; } }
 
+        protected bool IsRetry = false;
 
         public FreeMobileAuthentifier(Profile profile)
             :base(profile)
@@ -28,10 +29,27 @@ namespace CloudDaemon.Monitors.Free
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(StartPageHtml);
             HtmlNodeCollection elements = doc.DocumentNode.SelectNodes("//img[@class='ident_chiffre_img pointer']");
-
-            // TODO : Check that the 10 figures were successfully identified (otherwise, retry ? try and improve success rate ?)
+            
             List<FreeVirtualKey> keys = elements.Select((x, i) => new FreeVirtualKey(i, x.Attributes["src"].Value)).ToList();
             keys.ForEach(k => k.InitKey(Client));
+
+            for (int ii = 0; ii < 10; ii++)
+            {
+                if (keys.Count(k => k.Key == ii) != 1)
+                {
+                    if (IsRetry)
+                    {
+                        throw new Exception(String.Format("Could not find a virtual key corresponding to {0} even after retry.", ii));
+                    }
+                    else
+                    {
+                        IsRetry = true;
+                        LogManager.Log(String.Format("Could not find a virtual key corresponding to {0}. Retrying...", ii));
+                        DownloadStartPage();
+                        return GetSubmittedValues();
+                    }
+                }
+            }
 
             StringBuilder ObsfuscatedLogin = new StringBuilder();
             foreach (int i in Profile.Login.Select(c => Char.GetNumericValue(c)))
