@@ -12,7 +12,7 @@ namespace CloudDaemon.Common.Impl
     {
         private List<LogElement> Logs = new List<LogElement>();
 
-        private LogLevel MinLogLevelForAlert = LogLevel.Info;
+        private LogLevel MinLogLevelForAlert = LogLevel.Error;
 
         private IProfileManager ProfileManager;
 
