@@ -6,5 +6,7 @@ namespace CloudDaemon.Common.Interfaces
     public interface IMonitorManager
     {
         IEnumerable<MonitorEntity> GetAllMonitors();
+
+        void UpdateLastRunTime(MonitorEntity monitor);
     }
 }

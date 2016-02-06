@@ -6,7 +6,6 @@ using CloudDaemon.Common.Entities;
 using HtmlAgilityPack;
 using CloudDaemon.Common.Impl;
 using CloudDaemon.DAL;
-using System.Configuration;
 
 namespace CloudDaemon.AzureWebJob
 {
@@ -55,19 +54,25 @@ namespace CloudDaemon.AzureWebJob
             // There are some weird non html things inside those script tags. Do NOT look into them if you wanna parse
             HtmlNode.ElementsFlags.Remove("script");
             // kinda bad : password is stored in static var... eh whatever
-            EmailNotifier.SenderProfile = new ProfileRepository().GetProfileById(Int32.Parse(ConfigurationManager.AppSettings["SenderProfileId"]));
+            EmailNotifier.SenderProfile = new ProfileRepository().GetProfileByAlias("Automated Notification");
         }
 
         public static void Run()
         {
             IMonitorManager monitorManager = new MonitorRepository();
             IResultHandlerManager resultHandlerManager = new ResultHandlerRepository();
-
-            // TODO : Only run monitors that are required to run (ie : LastRun + Frequency < DateTime.Now)
+            DateTime runTime = DateTime.Now;
 
             IEnumerable<MonitorEntity> monitorEntities = monitorManager.GetAllMonitors();
             foreach (MonitorEntity monitorEntity in monitorEntities)
             {
+                // If the monitor has run recently, do nothing (we remove 10 seconds to the last run time to account for delayed starts)
+                if (monitorEntity.LastRun + monitorEntity.Frequency - new TimeSpan(0, 0, 10) > DateTime.Now ||
+                    !monitorEntity.IsActivated)
+                    continue;
+
+                monitorEntity.LastRun = runTime;
+
                 IMonitor monitor = (IMonitor)Activator.CreateInstance(monitorEntity.MonitorAssembly, monitorEntity.MonitorName).Unwrap();
                 IEnumerable<ResultHandlerEntity> resultHandlers = resultHandlerManager.GetResultHandlers(monitorEntity.IdMonitor);
                 // An authentified monitor is a monitor with an identity (profile)
@@ -82,6 +87,8 @@ namespace CloudDaemon.AzureWebJob
                     monitor.MonitorEnded += resultHandler.HandleResult;
                 }
                 monitor.Monitor();
+
+                monitorManager.UpdateLastRunTime(monitorEntity);
             }
         }
     }

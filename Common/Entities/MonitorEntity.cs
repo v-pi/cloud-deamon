@@ -11,6 +11,7 @@ namespace CloudDaemon.Common.Entities
             MonitorName = (string)reader["MonitorName"];
             Frequency = (TimeSpan)reader["Frequency"];
             LastRun = (DateTime)reader["LastRun"];
+            IsActivated = (bool)reader["Activated"];
             if (reader["IdMonitor"] != DBNull.Value)
             {
                 Profile = new Profile(reader);
@@ -30,6 +31,8 @@ namespace CloudDaemon.Common.Entities
         public DateTime LastRun { get; set; }
 
         public Profile Profile { get; set; }
+
+        public bool IsActivated { get; set; }
 
         public string MonitorAssembly
         {
