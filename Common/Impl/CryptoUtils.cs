@@ -9,14 +9,7 @@ namespace CloudDaemon.Common.Impl
     public static class CryptoUtils
     {
         private static byte[] _salt = Encoding.ASCII.GetBytes(ConfigurationManager.AppSettings["CloudDaemon.AesSalt"]);
-        private static string sharedSecret
-        {
-            get
-            {
-                byte[] protectedData = Convert.FromBase64String(ConfigurationManager.AppSettings["CloudDaemon.EncryptedPassword"]);
-                return Encoding.ASCII.GetString(ProtectedData.Unprotect(protectedData, null, DataProtectionScope.LocalMachine));
-            }
-        }
+        private static string sharedSecret = ConfigurationManager.AppSettings["CloudDaemon.Password"];
 
         public static void ProtectPassword(string password)
         {

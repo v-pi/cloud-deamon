@@ -5,6 +5,7 @@ namespace CloudDaemon.Common.Impl
 {
     public abstract class BaseMonitor : IMonitor
     {
+        // TODO : Set this property from database ?
         public abstract string Url { get; }
 
         public event EventHandler<object> MonitorEnded;

@@ -96,6 +96,8 @@
     <Compile Include="Free\FreeMobileMonitor.cs" />
     <Compile Include="Free\FreeVirualKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Taxes\TaxesAuthentifier.cs" />
+    <Compile Include="Taxes\TaxesMonitor.cs" />
     <Compile Include="Tennis\AvailableTennisSlotsCollection.cs" />
     <Compile Include="Tennis\TennisAuthentifier.cs" />
     <Compile Include="Tennis\TennisMonitor.cs" />

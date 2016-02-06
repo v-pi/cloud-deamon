@@ -27,6 +27,25 @@ namespace CloudDaemon.DAL
             }
         }
 
+        public Profile GetProfileByAlias(string alias)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AWSDatabase"].ConnectionString))
+            {
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT IdProfile, Login, Password, Alias FROM Profile WHERE Alias= @Alias";
+                    command.Parameters.AddParameter("@Alias", SqlDbType.VarChar, alias);
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        reader.Read();
+                        return new Profile(reader);
+                    }
+                }
+            }
+        }
+
         public void InsertProfile(Profile profile)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AWSDatabase"].ConnectionString))

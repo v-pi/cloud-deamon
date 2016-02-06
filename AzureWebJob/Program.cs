@@ -19,6 +19,10 @@ namespace CloudDaemon.AzureWebJob
         {
             try
             {
+#if !DEBUG
+                LogManager.Logger = new OneTimeLogger(new ProfileRepository());
+#endif
+
                 LogManager.Log("Start !");
                 JobHostConfiguration config = new JobHostConfiguration();
                 config.Queues.BatchSize = 1;
@@ -39,14 +43,19 @@ namespace CloudDaemon.AzureWebJob
             {
                 LogManager.Log(ex);
             }
+            finally
+            {
+                LogManager.FlushLogger();
+            }
         }
 
+        // TODO : Put most of this class in Common
         public static void Init()
         {
             // There are some weird non html things inside those script tags. Do NOT look into them if you wanna parse
             HtmlNode.ElementsFlags.Remove("script");
             // kinda bad : password is stored in static var... eh whatever
-            EmailNotifier.SenderProfile = new ProfileRepository().GetProfileById(Int32.Parse(ConfigurationManager.AppSettings["GmailProfileId"]));
+            EmailNotifier.SenderProfile = new ProfileRepository().GetProfileById(Int32.Parse(ConfigurationManager.AppSettings["SenderProfileId"]));
         }
 
         public static void Run()
@@ -54,13 +63,15 @@ namespace CloudDaemon.AzureWebJob
             IMonitorManager monitorManager = new MonitorRepository();
             IResultHandlerManager resultHandlerManager = new ResultHandlerRepository();
 
+            // TODO : Only run monitors that are required to run (ie : LastRun + Frequency < DateTime.Now)
+
             IEnumerable<MonitorEntity> monitorEntities = monitorManager.GetAllMonitors();
             foreach (MonitorEntity monitorEntity in monitorEntities)
             {
                 IMonitor monitor = (IMonitor)Activator.CreateInstance(monitorEntity.MonitorAssembly, monitorEntity.MonitorName).Unwrap();
                 IEnumerable<ResultHandlerEntity> resultHandlers = resultHandlerManager.GetResultHandlers(monitorEntity.IdMonitor);
                 // An authentified monitor is a monitor with an identity (profile)
-                if (monitor is AuthentifiedMonitor) 
+                if (monitor is AuthentifiedMonitor)
                     ((AuthentifiedMonitor)monitor).Profile = monitorEntity.Profile;
                 foreach (ResultHandlerEntity resultHandlerEntity in resultHandlers)
                 {

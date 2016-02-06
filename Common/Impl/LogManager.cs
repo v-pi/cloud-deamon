@@ -30,5 +30,11 @@ namespace CloudDaemon.Common.Impl
         {
             Logger.Log(ex);
         }
+
+        public static void FlushLogger()
+        {
+            if (Logger is IOneTimeLogger)
+                ((IOneTimeLogger)Logger).FlushLogger();
+        }
     }
 }

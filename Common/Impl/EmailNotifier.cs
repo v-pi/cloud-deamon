@@ -9,21 +9,19 @@ namespace CloudDaemon.Common.Impl
     {
         public static Profile SenderProfile;
 
-        // TODO : Use OAuth 2 -_-
         public override void HandleResult(object sender, object result)
         {
-            SenderProfile = Profile;
             MailAddress fromAddress = new MailAddress(SenderProfile.Login, SenderProfile.Alias);
 
             SmtpClient smtp = new SmtpClient
             {
-                Host = "smtp.gmail.com",
+                Host = "smtp-mail.outlook.com",
                 Port = 587,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
+                UseDefaultCredentials = true,
                 Credentials = new NetworkCredential(SenderProfile.Login, SenderProfile.Password)
-        };
+            };
 
             using (MailMessage email = new MailMessage(fromAddress, new MailAddress(Profile.Login, Profile.Alias))
             {
