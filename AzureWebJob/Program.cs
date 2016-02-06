@@ -44,6 +44,7 @@ namespace CloudDaemon.AzureWebJob
             }
             finally
             {
+                LogManager.Log("End");
                 LogManager.FlushLogger();
             }
         }
