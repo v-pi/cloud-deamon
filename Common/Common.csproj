@@ -111,6 +111,7 @@
     <Compile Include="Interfaces\IResultHandler.cs" />
     <Compile Include="Interfaces\IResultHandlerManager.cs" />
     <Compile Include="Enum\LogLevel.cs" />
+    <Compile Include="Interfaces\ITaxesManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

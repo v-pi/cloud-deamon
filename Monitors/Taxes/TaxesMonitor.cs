@@ -1,6 +1,7 @@
 ﻿using CloudDaemon.Common.Entities;
 using CloudDaemon.Common.Impl;
 using CloudDaemon.Common.Interfaces;
+using CloudDaemon.DAL;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Specialized;
@@ -49,6 +50,8 @@ namespace CloudDaemon.Monitors.Taxes
 
             HtmlNodeCollection taxesToPay = doc.DocumentNode.SelectNodes("//table[@id='tableaufacturesavisnonpayees1']//tr[@class='cssTableauLigne']");
 
+            ITaxesManager taxManager = new TaxesRepository();
+
             foreach(HtmlNode taxNode in taxesToPay)
             {
                 TaxNotice notice = new TaxNotice()
@@ -57,7 +60,10 @@ namespace CloudDaemon.Monitors.Taxes
                     Amount = Decimal.Parse(WebUtility.HtmlDecode(taxNode.ChildNodes[7].InnerText), NumberStyles.Currency, CultureInfo.GetCultureInfo("fr-FR")),
                     PaymentDate = DateTime.ParseExact(taxNode.ChildNodes[5].InnerText.Trim(), "dd/MM/yyyy", null),
                 };
+                if (taxManager.TaxNoticeExists(notice))
+                    continue;
 
+                taxManager.SaveTaxNotice(notice);
                 OnMonitorEnded(notice);
             }
         }

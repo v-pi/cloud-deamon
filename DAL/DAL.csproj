@@ -42,6 +42,7 @@
     <Compile Include="ProfileRepository.cs" />
     <Compile Include="ResultHandlerRepository.cs" />
     <Compile Include="SqlParameterCollectionExtension.cs" />
+    <Compile Include="TaxesRepository.cs" />
     <Compile Include="TennisRepository.cs" />
   </ItemGroup>
   <ItemGroup>
